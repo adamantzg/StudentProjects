@@ -1,0 +1,29 @@
+
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">{{title}}</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+    <div class="form-group">
+        <label class="radio-inline"> <input type="radio" [(ngModel)]="selection.type" value="1" /> Odaberite postojeću</label>
+        <label class="radio-inline"> <input type="radio" [(ngModel)]="selection.type" value="2" /> Predložite novu</label>
+    </div>
+    <div class="form-group" *ngIf="selection.type == '1'">
+        <label>Tema:</label>
+        <select class="form-control" [(ngModel)]="request.subjectId">
+         <option *ngFor="let s of subjects" [value]="s.id" >{{s.name + ' (Prijava: ' + s.requestCount + ' Odobrenih: ' + s.approvedRequestCount + ')'}}</option>
+        </select>
+    </div>
+    <div class="form-group" *ngIf="selection.type == '2'">
+        <label>Tema: </label>
+        <input type="text" class="form-control" [(ngModel)]="request.subjectText" />        
+    </div>
+    <div class="form-group">
+        <label>Napomena:</label>
+        <textarea class="form-control" [(ngModel)]="request.comment"></textarea>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" (click)="ok()">Promijeni</button>
+    <button class="btn btn-default" type="button" (click)="cancel()">Odustani</button>
+</div>

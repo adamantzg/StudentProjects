@@ -1,0 +1,20 @@
+<div class="form-group">
+  <label>Naziv*:</label>
+  <input type="text" class="form-control" name="name" [(ngModel)]="exam.name" required/>
+</div>
+<div class="form-group">
+  <label>Datum*:</label>
+  <p class="input-group">
+    <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker [(bsValue)]="exam.examDateTime" name="date" [bsConfig]="bsConfig" required/>
+    <span class="input-group-btn">
+        <button type="button" class="btn btn-default" (click)="dp.toggle()"><i class="glyphicon glyphicon-calendar"></i></button>
+    </span>
+    <timepicker [(ngModel)]="exam.examDateTime" [showMeridian]="false" ></timepicker>
+  </p>
+</div>
+<div class="form-group">
+  <label>Predmet*:</label>
+  <select class="form-control" required [(ngModel)]="exam.courseId" [disabled]="courses.length < 2" name="course" required>
+    <option *ngFor="let c of courses" [value]="c.id">{{c.name}}</option>
+  </select>
+</div>

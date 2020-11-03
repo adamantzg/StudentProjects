@@ -1,0 +1,36 @@
+<div class="form-group">
+  <label>Tema:</label>
+  <input type="text" class="form-control" [(ngModel)]="model.request.subjectText" *ngIf="!model.request.subject" />
+  <input type="text" disabled class="form-control" [(ngModel)]="model.request.subject.name" *ngIf="model.request.subject && !model.user.isAdmin" />
+  <select class="form-control" [(ngModel)]="model.request.subjectId" *ngIf="model.user.isAdmin">
+    <option value="">(Select)</option>
+    <option *ngFor="let s of model.subjects" [value]="s.id">{{s.name}}</option>
+  </select>
+</div>
+<div class="form-group">
+  <label>Predmet:</label>
+  <select class="form-control" required [(ngModel)]="model.request.courseId" [disabled]="model.courses.length < 2">
+    <option *ngFor="let c of model.courses" [value]="c.id">{{c.name}}</option>
+  </select>
+</div>
+<div class="form-group" *ngIf="model.user.isAdmin">
+  <label>Datum isteka:</label>
+  <p class="input-group">
+      <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker [(bsValue)]="model.request.dateDue" [bsConfig]="bsConfig" />
+      <span class="input-group-btn">
+          <button type="button" class="btn btn-default" (click)="dp.toggle()"><i class="glyphicon glyphicon-calendar"></i></button>
+      </span>
+      
+  </p>
+</div>
+<div class="form-group" *ngIf="model.user.isAdmin">
+  <label>Status:</label>
+  <select class="form-control" [(ngModel)]="model.request.statusId">
+    <option *ngFor="let s of getStatuses()" [value]="s.id">{{s.name}}</option>
+  </select>
+</div>
+<div class="form-group" >
+  <label>Napomena:</label>
+  <textarea class="form-control" [(ngModel)]="model.request.comment" *ngIf="!model.user.isAdmin"></textarea>
+  <textarea class="form-control" [(ngModel)]="model.comment.text" *ngIf="model.user.isAdmin" ></textarea>
+</div>

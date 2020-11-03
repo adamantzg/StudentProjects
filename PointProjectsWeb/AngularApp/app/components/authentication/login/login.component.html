@@ -1,0 +1,47 @@
+<div class="row">
+  
+  <div class="col-md-8 col-xs-12">
+      <tabset>
+          <tab heading="Prijava">
+              <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+              <div class="form">
+                  <div class="form-group">
+                      <label>Korisničko ime:</label>
+                      <input type="text" class="form-control" [(ngModel)]="loginData.username" />
+                  </div>
+                  <div class="form-group">
+                      <label>Lozinka:</label>
+                      <input type="password" class="form-control" [(ngModel)]="loginData.password" />
+                  </div>
+                  <div><a routerLink="/forgotpass">Zaboravili ste lozinku?</a></div>
+                  <button class="btn btn-primary" (click)="login()">Prijava</button>
+
+              </div>
+          </tab>
+          <tab heading="Registracija">
+              <div class="form">
+                  <div class="alert alert-danger" *ngIf="errorMessageReg">{{errorMessageReg}}</div>
+                  <div class="form-group">
+                      <label>Registracijski kod:</label>
+                      <input type="text" class="form-control" [(ngModel)]="registration.registrationCode" [disabled]="verified" />
+                  </div>
+                  <div class="form-group" *ngIf="verified">
+                      <label>Korisničko ime:</label>
+                      <input type="text" disabled class="form-control" [(ngModel)]="registration.username" />
+                  </div>
+                  <div class="form-group" *ngIf="verified">
+                      <label>Lozinka:</label>
+                      <input type="password" class="form-control" required [(ngModel)]="registration.password" />
+                  </div>
+                  <div class="form-group" *ngIf="verified">
+                      <label>Ponovi lozinku:</label>
+                      <input type="password" class="form-control" required [(ngModel)]="registration.password2" />
+                  </div>
+                  <button class="btn btn-primary" (click)="register()" >{{registrationButtonText}}</button>
+              </div>
+          </tab>
+      </tabset>
+
+  </div>
+  <div class="col-md-4"></div>
+</div>

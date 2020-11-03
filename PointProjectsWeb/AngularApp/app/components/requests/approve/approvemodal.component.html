@@ -1,0 +1,25 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">{{title}}</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+    <div class="form-group">
+        <label>Tema:</label>
+        <div *ngIf="request?.subject == null || request?.subjectId <= 0">
+            <input type="text" class="form-control" [(ngModel)]="request.subjectText" /> 
+            <textarea class="form-control" [(ngModel)]="request.comment" rows="3"></textarea>
+            <input type="checkbox" [(ngModel)]="options.addSubject"/>Dodaj u popis tema
+        </div>
+        <select class="form-control" [(ngModel)]="request.subjectId" *ngIf="request?.subject && request?.subject?.id > 0">
+          <option *ngFor="let s of subjects" [value]="s.id">{{s.name}}</option>
+          </select>        
+    </div>
+    <div class="form-group">
+        <label>Komentar:</label>
+        <textarea class="form-control" [(ngModel)]="comment.text" ></textarea>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" (click)="ok()">{{okText}}</button>
+    <button class="btn btn-default" type="button" (click)="cancel()">Odustani</button>
+</div>

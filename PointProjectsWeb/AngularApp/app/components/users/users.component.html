@@ -1,0 +1,64 @@
+<h3>Administracija studenata</h3>
+<div class="row">
+  <div class="col-md-8 col-xs-12">
+      <div class="alert alert-success" *ngIf="successMessage">{{successMessage}}</div>
+      <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+  </div>
+</div>
+<div class="row">
+    <div class="col-md-4 col-xs-12">        
+        <div class="form-group">
+            <label>Grupa</label>
+            <select class="form-control" [disabled]="groups.length<2" [(ngModel)]="group">
+              <option *ngFor="let g of groups" [ngValue]="g" [selected]="g.id == group.id">{{g.name}}</option>
+            </select>
+        </div>
+        <div style="margin-top: 5px">
+            <button class="btn btn-default" (click)="newUser()">Novi korisnik</button>
+            <button class="btn btn-default" (click)="sendCodes()" [disabled]="usersSelected().length == 0">Pošalji kodove</button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div style="margin-top: 15px" class="table-responsive">
+           <div class="alert alert-danger" *ngIf="errorMessage ">{{errorMessage}}</div>
+            <table class="table table-striped" datatable="ng" dt-options="dtOptions">
+                <thead>
+                    <tr>
+                        <th style="width: 30px"><input type="checkbox" (change)="checkAll()" [(ngModel)]="all" /></th>
+                        <th>Ime</th>
+                        <th>Prezime</th>
+                        <th>Korisničko ime</th>
+                        <th>E-mail</th>
+                        <th>Registracijski kod</th>
+                        <th>Datum slanja koda</th>
+                        <th>Datum kreiranja</th>
+                        <th *ngFor="let c of courses">{{c.shortname}}</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let u of group.users | orderBy: 'surname'">
+                        <td><input type="checkbox" [(ngModel)]="u.selected" /></td>
+                        <td>{{u.name}}</td>
+                        <td>{{u.surname}}</td>
+                        <td>{{u.username}}</td>
+                        <td>{{u.email}}</td>
+                        <td>{{u.registrationCode}}</td>
+                        <td>{{u.dateCodeSent | date:dateFormat}}</td>
+                        <td>{{u.dateCreated | date:dateFormat}}</td>
+                        <td *ngFor="let c of courses"><input type="checkbox" [(ngModel)]="u.coursesDict[c.id]" (change)="updateUserCourse(u,c)" /></td>
+                        <td><button class="btn btn-default" (click)="editUser(u)">Uredi</button></td>
+                        <td><button class="btn btn-default" (click)="sendCode(u)">Pošalji kod</button></td>
+                        <td><button class="btn btn-default" (click)="deleteUser(u)">Obriši</button></td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+</div>

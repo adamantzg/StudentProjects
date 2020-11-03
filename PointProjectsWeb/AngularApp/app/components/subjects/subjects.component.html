@@ -1,0 +1,55 @@
+<h3 *ngIf="mode == modes.edit">Administracija tema</h3>
+<h3 *ngIf="mode == modes.list">Teme</h3>
+<div class="alert alert-success" *ngIf="successMessage">{{successMessage}}</div>
+<div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+
+<div style="margin: 10px 0 10px 0" *ngIf="mode == modes.edit">
+    <button class="btn btn-primary" (click)="addNew()">Dodaj novu</button>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped" >
+        <thead>
+            <tr>
+                <th style="width:25%">Naziv</th>
+                <th>Opis</th>
+                <ng-container *ngIf="mode == modes.edit">
+                        <th>Kreirao</th>
+                        <th>Datum kreiranja</th>
+                        <th>Odobrio</th>
+                        <th>Datum odobrenja</th>
+                        <th>Predmeti</th>
+                </ng-container>                    
+                
+                <th>Prijava *</th>
+                <th></th>
+                <th *ngIf="mode == modes.edit"></th>
+                <!--<th></th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let s of subjects | orderBy: 'dateCreated' : true ">
+                <td>{{s.name}}</td>
+                <td><app-shortened-text [text]="s.description"></app-shortened-text></td>
+                <ng-container *ngIf="mode == modes.edit">
+                        <td>{{s.createdBy.name + ' ' + s.createdBy.surname}}</td>
+                        <td>{{s.dateCreated | date:dateFormat}}</td>
+                        <td><span *ngIf="s.approvedById">{{s.approvedBy.name + ' ' + s.approvedBy.surname}}</span> </td>
+                        <td><span *ngIf="s.dateApproved">{{s.dateApproved | date:dateFormat}}</span></td>
+                        <td>{{getCourses(s)}}</td>
+                </ng-container>                    
+                <td>{{s.requestCount}}</td>                    
+                <td><button class="btn btn-default" (click)="edit(s)" *ngIf="mode == modes.edit">Uredi</button>
+                    <button class="btn btn-default" (click)="request(s)" [disabled]="s.id <= 0" *ngIf="mode == modes.request">Prijavi</button>
+                </td>                    
+                <!-- <td><button class="btn btn-default" (click)="approve(s)" ng-disabled="s.approvedById">Odobri</button></td>-->
+                <td *ngIf="mode ==modes.edit"><button class="btn btn-default" (click)="delete(s.id)">Obriši</button></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr *ngIf="mode !== modes.edit">
+                <td [colSpan]="(mode == modes.edit ? 9 : 4)">* odnosi se na aktivne prijave<br>Onemogućene teme su one koje su predložili drugi studenti.</td>
+            </tr>
+        </tfoot>
+    </table>
+    
+</div>

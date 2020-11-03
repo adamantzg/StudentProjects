@@ -1,0 +1,5 @@
+<div class="alert alert-success" *ngIf="successMessage">{{successMessage}}</div>
+<div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+<app-user [User]="user" [showPassword]="true" [passwordChange]="passwordChange"></app-user>
+<br>
+<button type="button" class="btn btn-success" (click)="save()">Spremi</button>

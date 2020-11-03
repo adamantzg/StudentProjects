@@ -1,0 +1,55 @@
+/* You can add global styles to this file, and also import other style files */
+
+.spinner-overlay {
+    background-color: white;
+    cursor: wait;
+  }
+  
+  .spinner-message-container {
+    position: absolute;
+    top: 35%;
+    left: 0;
+    right: 0;
+    height: 0;
+    text-align: center;
+    z-index: 10001;
+    cursor: wait;
+  }
+  
+  .spinner-message {
+    display: inline-block;
+    text-align: left;
+    background-color: #333;
+    color: #f5f5f5;
+    padding: 20px;
+    border-radius: 4px;
+    font-size: 20px;
+    font-weight: bold;
+    filter: alpha(opacity=100);
+  }
+  
+  .modal-backdrop.in {
+      filter: alpha(opacity=10);
+      opacity: .10;
+  }
+  
+  .modal-backdrop {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1040;
+      background-color: #000;
+  }
+  
+  .rotate90 {
+      /*/-webkit-transform: rotate(30deg);
+      -moz-transform: rotate(30deg);
+      -o-transform: rotate(30deg);
+      -ms-transform: rotate(30deg);
+      transform: rotate(30deg);*/
+      animation:.6s rotateRight infinite linear; 
+  
+  }
+  

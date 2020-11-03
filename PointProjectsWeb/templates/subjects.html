@@ -1,0 +1,46 @@
+﻿<h3>Administracija tema</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="alert alert-success" ng-show="successMessage">{{successMessage}}</div>
+        <div class="alert alert-danger" ng-show="errorMessage">{{errorMessage}}</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div style="margin: 10px 0 10px 0">
+            <button class="btn btn-primary" ng-click="addNew()">Dodaj novu</button>
+        </div>
+        <table class="table table-striped" datatable="ng">
+            <thead>
+                <tr>
+                    <th>Naziv</th>
+                    <th>Opis</th>
+                    <th>Kreirao</th>
+                    <th>Datum kreiranja</th>
+                    <th>Odobrio</th>
+                    <th>Datum odobrenja</th>
+                    <th>Predmeti</th>
+                    <th>Prijava</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="s in subjects | orderBy: 'dateCreated' : true ">
+                    <td>{{s.name}}</td>
+                    <td><shortened-text text="s.description"></shortened-text></td>
+                    <td>{{s.createdBy.name + ' ' + s.createdBy.surname}}</td>
+                    <td>{{formatDate(s.dateCreated)}}</td>
+                    <td><span ng-show="s.approvedById">{{s.approvedBy.name + ' ' + s.approvedBy.surname}}</span> </td>
+                    <td><span ng-show="s.dateApproved">{{formatDate(s.dateApproved)}}</span></td>
+                    <td>{{getCourses(s)}}</td>
+                    <td>{{s.requestCount}}</td>                    
+                    <td><button class="btn btn-default" ng-click="edit(s)">Uredi</button></td>                    
+                    <td><button class="btn btn-default" ng-click="approve(s)" ng-disabled="s.approvedById">Odobri</button></td>
+                    <td><button class="btn btn-default" ng-click="delete(s)">Obriši</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

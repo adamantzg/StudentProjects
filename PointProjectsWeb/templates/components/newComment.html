@@ -1,0 +1,25 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label>Tema:</label>
+            <select class="form-control" ng-options="r as r.description for r in $ctrl.requests" ng-disabled="$ctrl.requests.length==1" ng-model="$ctrl.comment.request"></select>
+        </div>
+        <div class="form-group">
+            <label>Dodaj komentar:</label>
+            <textarea class="form-control" rows="4" ng-model="$ctrl.comment.text"></textarea>
+        </div>
+        <div class="checkbox-inline">
+            <span ng-if="$ctrl.showCheckBox('db') && !$ctrl.user.isAdmin"><input type="checkbox" ng-model="$ctrl.comment.databaseSent" /> Zatraži odobrenje baze podataka</span>
+            <span ng-if="$ctrl.showCheckBox('code') && !$ctrl.user.isAdmin"><input type="checkbox" ng-model="$ctrl.comment.codeSent" /> Zatraži odobrenje koda</span>
+        </div>
+        <div>
+            <button class="glyphicon glyphicon-upload" title="Upload datoteke" plupload="$ctrl.uploadSettings.url"
+                    plupload-options="$ctrl.uploadSettings.options"
+                    plupload-callbacks="$ctrl.uploadSettings.callbacks"></button> <span style="font-size:0.8em;color:#a94442">Preporuča se slanje linkova na cloud storage tipa Dropbox umjesto uploada. Ako uploadate, komprimirajte u zip ili 7z. Ograničenje na upload je {{$ctrl.uploadLimit}} MB.</span>
+            <div><span ng-repeat="f in $ctrl.comment.files"><a ng-href="{{getFileUrl(f)}}">{{f.name}}</a> <button class="glyphicon glyphicon-remove" ng-click="removeFile(f)"></button></span></div>
+            <button class="pull-right btn btn-primary" ng-click="$ctrl.onCreate({c: $ctrl.comment})">Pošalji komentar</button>
+        </div>
+        
+    </div>
+    
+</div>

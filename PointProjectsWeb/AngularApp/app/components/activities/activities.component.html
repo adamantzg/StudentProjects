@@ -1,0 +1,51 @@
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Datum
+                </th>
+                <th >
+                    Korisnik
+                </th>
+                <th>
+      
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let a of activities | orderBy:'dateCreated':true">
+                <td>{{a.dateCreated | date:dateFormat}}</td>
+                <td >
+                    {{a.createdBy.name + ' ' + a.createdBy.surname}}
+                </td>
+                <td>
+                    <span *ngIf="!a.comment">Tema: <a *ngIf="user.isAdmin" [routerLink]="['/request',a.request.id]">{{getSubjectText(a.request)}}</a> 
+                        <span *ngIf="!user.isAdmin">{{getSubjectText(a.request)}}</span> <span *ngIf="user.isAdmin && a.request.createdById != a.createdById">({{a.request.createdBy.name + ' ' + a.request.createdBy.surname}}, {{a.request.course.shortname}}). </span>{{a.description}}</span>
+                    <span *ngIf="a.comment">
+                        <span *ngIf="!a.requestChanged">{{a.createdBy.name + ' ' + a.createdBy.surname}} je komentirao na temi 
+                            <a *ngIf="user.isAdmin" [routerLink]="['/request',a.request.id]">{{getSubjectText(a.request)}}</a> 
+                            <span *ngIf="!user.isAdmin">{{getSubjectText(a.request)}}</span>
+                            <span *ngIf="user.isAdmin">({{a.request.course.shortname}})</span>
+                            <span *ngIf="user.isAdmin && a.request.createdById != a.createdById">({{a.request?.createdBy?.name + ' ' + a.request?.createdBy?.surname}}, {{a.request.course.shortname}}). </span><br/>
+                             Komentar: <span [innerHTML]="a.comment.text"></span> <br /></span>                
+                        <span *ngIf="a.requestChanged">Tema: <a *ngIf="user.isAdmin" [routerLink]="['/request',a.request.id]">{{getSubjectText(a.request)}}</a> 
+                            <span *ngIf="!user.isAdmin">{{getSubjectText(a.request)}}</span> {{a.description}} <br /><strong>Komentar:</strong><br/>
+                          <span [innerHTML]="a.comment.text"></span>
+                        </span>
+                    </span>
+                    <div>
+                        <span *ngIf="a.comment?.files?.length > 0"><strong>Datoteke:</strong> </span>
+                        <span *ngIf="a.comment?.files">
+                            <span *ngFor="let f of a.comment?.files">
+                                  <a [href]="getFileUrl(f)" target="_blank">{{f.name}}</a>
+                            </span>
+                          </span>
+                    </div>
+                    
+                </td>
+            </tr>
+        </tbody>
+      </table>
+</div>
+

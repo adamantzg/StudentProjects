@@ -1,0 +1,23 @@
+<div class="alert alert-success" *ngIf="successMessage">{{successMessage}}</div>
+<div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+      
+<h4>{{getRequestSubjects()}}</h4>
+<div class="panel panel-primary">
+        <div class="panel-heading" style="cursor: pointer" data-toggle="collapse" data-target="#panel1" >
+            <span *ngIf="!user?.isAdmin">Moje</span><span *ngIf="user?.isAdmin">Aktualne</span> prijave                                          
+        </div>
+        <div class="panel-body collapse in" id="panel1">
+            <div class="text-center" *ngIf="requests.length == 0 && !user?.isAdmin" >Nemate niti jednu prijavu</div>
+            <div *ngIf="requests != null && requests.length > 0">
+                <app-request-list [requests]="requests" (onError)="onError($event)" (onChange)="onRequestListChange($event)"></app-request-list>
+            </div>
+        </div>          
+    </div>
+<div class="panel panel-primary">
+    <div class="panel-heading" style="cursor: pointer" data-toggle="collapse" data-target="#panel3">Aktivnosti</div>
+    <div class="panel-body collapse in" id="panel3">
+        <app-newcomment [uploadLimit]="uploadLimit" [user]="user" [requests]="requests" *ngIf="activeRequests().length > 0" (onCreate)="onCommentCreate($event)"
+          [workflows]="workflows"></app-newcomment>
+        <app-activities [activities]="logs" [user]="user"></app-activities>
+    </div>
+</div>

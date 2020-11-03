@@ -1,0 +1,55 @@
+<h3 *ngIf="mode == modes.Administration">Administracija ispita (obrana)</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="alert alert-success" *ngIf="successMessage">{{successMessage}}</div>
+        <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div style="margin: 10px 0 10px 0" *ngIf="mode == modes.Administration">
+            <button class="btn btn-primary" (click)="addNew()">Dodaj novu</button>
+        </div>
+        <table class="table table-striped" >
+            <thead>
+                <tr>
+                    <th>Naziv</th>
+                    <th>Datum</th>
+                    <th>Predmet</th>
+                    <ng-container *ngIf="mode == modes.Administration">
+                        <th>Kreirao</th>
+                        <th>Datum kreiranja</th>
+                        <th>Prijava</th>
+                    </ng-container>
+                    
+                    <th></th>
+                    <th *ngIf="user.isAdmin"></th>
+                    <!-- <th></th>
+                    <th></th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let e of exams | orderBy: 'examDateTime' ">
+                    <td>{{e.name}}</td>
+                    <td>{{e.examDateTime | date:dateFormat}}</td>
+                    <td>{{e.course?.shortname}}</td>
+                    <ng-container *ngIf="mode == modes.Administration">
+                            <td>{{e.createdBy.name + ' ' + e.createdBy.surname}}</td>
+                            <td>{{e.dateCreated | date:dateFormat}}</td>
+                            <td><span *ngIf="e.requests.length == 0; else requestsLink">
+                                {{e.requests.length}}
+                            </span>
+                            <ng-template #requestsLink><a style="cursor: pointer;" (click)="showRequests(e)" >{{e.requests.length}}</a></ng-template>
+                            </td>
+                    </ng-container>                    
+                    
+                    <td><button class="btn btn-default" (click)="edit(e)" *ngIf="mode == modes.Administration">Uredi</button>
+                        <button class="btn btn-default" (click)="apply(e)" *ngIf="mode == modes.Applying">Prijavi</button>
+                    </td>                    
+                    <td *ngIf="user.isAdmin"><button class="btn btn-default" type="button" (click)="delete(e)">Obriši</button>
+                </tr>
+            </tbody>
+            
+        </table>
+    </div>
+</div>

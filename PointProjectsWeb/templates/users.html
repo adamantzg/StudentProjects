@@ -1,0 +1,55 @@
+﻿<h3>Administracija studenata</h3>
+<div class="row">
+    <div class="col-md-4">
+        <div class="alert alert-success" ng-show="successMessage">{{successMessage}}</div>
+        <div class="alert alert-danger" ng-show="errorMessage">{{errorMessage}}</div>
+        <div class="form-group">
+            <label>Grupa</label>
+            <select class="form-control" ng-options="g as g.name for g in groups" ng-disabled="groups.length<2" ng-model="group"></select>
+        </div>
+        <div style="margin-top: 5px">
+            <button class="btn btn-default" ng-click="newUser()">Novi korisnik</button>
+            <button class="btn btn-default" ng-click="sendCodes()" ng-disabled="!usersSelected()">Pošalji kodove</button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div style="margin-top: 15px">
+            <table class="table table-striped" datatable="ng" dt-options="dtOptions">
+                <thead>
+                    <tr>
+                        <th style="width: 30px"><input type="checkbox" ng-click="checkAll()" ng-model="all.checked" /></th>
+                        <th>Ime</th>
+                        <th>Prezime</th>
+                        <th>Korisničko ime</th>
+                        <th>E-mail</th>
+                        <th>Registracijski kod</th>
+                        <th>Datum kreiranja</th>
+                        <th ng-repeat="c in courses">{{c.shortname}}</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="u in group.users | orderBy: 'surname'">
+                        <td><input type="checkbox" ng-model="u.selected" /></td>
+                        <td>{{u.name}}</td>
+                        <td>{{u.surname}}</td>
+                        <td>{{u.username}}</td>
+                        <td>{{u.email}}</td>
+                        <td>{{u.registrationCode}}</td>
+                        <td>{{formatDate(u.dateCreated)}}</td>
+                        <td ng-repeat="c in courses"><input type="checkbox" ng-model="u.coursesDict[c.id]" ng-click="updateUserCourse(u,c)" /></td>
+                        <td><button class="btn btn-default" ng-click="editUser(u)">Uredi</button></td>
+                        <td><button class="btn btn-default" ng-click="sendCode(u)">Pošalji kod</button></td>
+                        <td><button class="btn btn-default" ng-click="delete(u)">Obriši</button></td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+</div>

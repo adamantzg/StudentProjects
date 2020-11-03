@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label>Tema:</label>
+            <select class="form-control" [(ngModel)]="comment.request" [disabled]="activeRequests().length<=1">
+              <option *ngFor="let r of activeRequests()" [ngValue]="r">{{getDescription(r)}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Dodaj komentar:</label>
+            <editor *ngIf="useRichEditor" [init]="textEditorInit"  [(ngModel)]="comment.text"></editor>
+            <textarea class="form-control" *ngIf="!useRichEditor" [(ngModel)]="comment.text"></textarea>
+        </div>
+        <div class="checkbox-inline" *ngIf="showChangeStatusCheckBox() && !user.isAdmin">
+            <span ><input type="checkbox" [(ngModel)]="comment.statusChange" /> {{getStatusChangeText()}}</span>
+            <!-- <span *ngIf="showCheckBox('code') && !user.isAdmin"><input type="checkbox" [(ngModel)]="comment.codeSent" /> Zatraži odobrenje koda</span> -->
+        </div>
+        <div>
+            <input type="file" ngFileSelect class="btn" title="Upload datoteke" (uploadOutput)="onUploadOutput($event)"
+             [uploadInput]="uploadInput" multiple> 
+             <span style="font-size:0.8em;color:#a94442">Preporuča se slanje linkova na cloud storage tipa Dropbox umjesto uploada. 
+               Ako uploadate, komprimirajte u zip ili 7z. Ograničenje na upload je {{uploadLimit}} MB.</span>
+             <div>
+               <div style="display:inline-block;width:300px;margin: 2px" *ngFor="let f of files">
+                  <progressbar class="progress progress-striped progress-animated" [max]="100" [value]="f.progress.data.percentage">
+                  <span style="color:white; white-space:nowrap;">{{f.name + ' ' + f.progress.data.percentage.toString()}} % </span>
+                  </progressbar>
+                 </div> 
+            <div>
+                <div style="display:inline-block;margin: 2px" *ngFor="let f of comment.files">
+                  <a [href]="getFileUrl(f)" target="_blank">{{f.name}}</a> <button class="glyphicon glyphicon-remove" (click)="removeFile(f)"></button>
+                </div>
+            </div>
+            <button class="pull-right btn btn-primary" (click)="create()" [disabled]="!comment.text">Pošalji komentar</button>
+        </div>
+        
+    </div>
+    
+</div>

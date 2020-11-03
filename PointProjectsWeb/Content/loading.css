@@ -1,0 +1,10 @@
+﻿.loading-dialog {
+    display: none;
+    position: fixed;
+    z-index: 1100;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba( 0, 0, 0, .3 ) url('/images/loading2.gif') 50% 50% no-repeat;
+}

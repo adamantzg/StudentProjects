@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-md-4">
+
+  </div>
+  <div class="col-md-4">
+      <h2>Zaboravljena lozinka</h2>
+      <div class="alert alert-success" *ngIf="successMessage">{{successMessage}}</div>
+      <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+      <div class="form-group" >
+        <label>Nova lozinka:</label>
+        <input type="password" class="form-control" required [(ngModel)]="passChange.password" />
+      </div>
+      <div class="form-group" >
+          <label>Ponovi lozinku:</label>
+          <input type="password" class="form-control" required [(ngModel)]="passChange.password2" />
+      </div>
+      <button class="btn btn-primary" (click)="setPassword()">Postavi novu lozinku</button>      
+      
+  </div>
+  <div class="col-md-4">
+
+  </div>
+</div>
+
+
+
+

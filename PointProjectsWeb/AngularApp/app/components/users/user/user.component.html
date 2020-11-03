@@ -1,0 +1,33 @@
+
+    <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+    <div class="form-group">
+        <label>Ime*:</label>
+        <input type="text" class="form-control" [(ngModel)]="User.name" />
+    </div>
+    <div class="form-group">
+        <label>Prezime*:</label>
+        <input type="text" class="form-control" [(ngModel)]="User.surname" />
+    </div>
+    <div class="form-group" *ngIf="IsAdmin">
+        <label>Korisničko ime*:</label>
+        <input type="text" class="form-control" [(ngModel)]="User.username" ng-disabled="" />
+        <button class="btn btn-success" ng-disabled="!user.username" (click)="checkUsername()">Provjeri</button>
+        <div class="alert alert-danger"  *ngIf="userNameError">{{userNameError}}</div>
+        <div class="alert alert-success" *ngIf="userNameSuccess">{{userNameSuccess}}</div>
+    </div>
+    <div class="form-group">
+        <label>Email*:</label>
+        <input type="text" class="form-control" [(ngModel)]="User.email" />
+    </div>
+    <div class="form-group" *ngIf="User.id > 0 && loggedInUser.isAdmin">
+        <label>Registracijski kod:</label> {{User.registrationCode}}
+        <button class="btn btn-default" (click)="generateCode()">Generiraj novi</button>
+    </div>
+    <div class="form-group" *ngIf="showPassword">
+        <label>Lozinka:</label>
+        <input type="password" class="form-control" [(ngModel)]="passwordChange.password" />
+    </div>
+    <div class="form-group" *ngIf="showPassword">
+        <label>Ponovi lozinku:</label>
+        <input type="password" class="form-control" [(ngModel)]="passwordChange.password2" />
+    </div>

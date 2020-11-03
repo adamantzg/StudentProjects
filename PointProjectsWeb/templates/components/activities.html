@@ -1,0 +1,43 @@
+﻿<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Datum
+            </th>
+            <th >
+                Korisnik
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="a in $ctrl.activities">
+            <td>{{a.dateCreated | date:'dd.MM.yyyy HH:mm'}}</td>
+            <td >
+                {{a.createdBy.name + ' ' + a.createdBy.surname}}
+            </td>
+            <td>
+                <span ng-if="!a.comment">Tema: <a ui-sref="request({id: a.requestId})">
+                    <span ng-if="a.request.subject">{{a.request.subject.name}}</span>
+                    <span ng-if="!a.request.subject">{{a.request.subjectText}}</span></a> <span ng-if="$ctrl.user.isAdmin && a.request.createdById != a.createdById">({{a.request.createdBy.name + ' ' + a.request.createdBy.surname}}, {{a.request.course.shortname}}). </span>{{a.description}}</span>
+                <span ng-if="a.comment">
+                    <span ng-if="!a.requestChanged">{{a.createdBy.name + ' ' + a.createdBy.surname}} je komentirao na temi <a ui-sref="request({id: a.requestId})">
+                        <span ng-if="a.request.subject">{{a.request.subject.name}}</span>
+                        <span ng-if="!a.request.subject">{{a.request.subjectText}}</span>
+                        </a> <span ng-if="$ctrl.user.isAdmin && a.request.createdById != a.createdById">({{a.request.createdBy.name + ' ' + a.request.createdBy.surname}}, {{a.request.course.shortname}}). </span>. Komentar: {{a.comment.text}} <br /></span>                
+                    <span ng-if="a.requestChanged">Tema: <a ui-sref="request({id: a.requestId})">
+                        <span ng-if="a.request.subject">{{a.request.subject.name}}</span>
+                        <span ng-if="!a.request.subject">{{a.request.subjectText}}</span>
+                      </a> {{a.description}}. <br /><strong>Komentar:</strong> {{a.comment.text}}</span>
+                </span>
+                <div>
+                    <span ng-if="a.comment.files.length > 0"><strong>Datoteke:</strong> </span>
+                    <span ng-repeat="f in a.comment.files"><a ng-href="{{$ctrl.getFileUrl(f)}}">{{f.name}}</a></span>
+                </div>
+                
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,25 @@
+﻿<div class="alert alert-warning" ng-show="freeOnly">Prikazane su samo slobodne teme</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Naziv</th>
+            <th>Opis</th>
+            <th>Br. prijava*</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="s in $ctrl.subjects">
+            <td>{{s.name}}</td>
+            <td><shortened-text text="s.description"></shortened-text>
+            </td>
+            <td>{{s.requestCount}}</td>
+            <td><button class="btn btn-primary" ng-click="$ctrl.onRequest({subject: s})">Prijavi</button></td>            
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4">* odnosi se na aktivne prijave</td>
+        </tr>
+    </tfoot>
+</table>

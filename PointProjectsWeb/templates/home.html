@@ -1,0 +1,92 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="alert alert-success" ng-show="successMessage">{{successMessage}}</div>
+        <div class="alert alert-danger" ng-show="errorMessage">{{errorMessage}}</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10">
+        <div class="panel panel-primary" >
+            <div class="panel-heading" >
+                <span ng-if="!user.isAdmin">Moje</span><span ng-if="user.isAdmin">Aktualne</span> prijave
+            </div>
+            <div class="panel-body">
+                <div class="text-center" ng-show="requests.length == 0" ng-if="!user.isAdmin">Nemate niti jednu prijavu</div>
+                <div ng-show="requests.length > 0">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Datum prijave</th>
+                                <th>Datum isteka</th>
+                                <th ng-if="user.isAdmin">Student</th>
+                                <th ng-if="user.isAdmin">Predmet</th>
+                                <th>Tema</th>
+                                <th>Status</th>
+                                <th></th>
+                                <th></th>
+                                
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="r in requests">
+                                <td>{{formatDate(r.dateCreated)}}</td>
+                                <td>{{formatDate(r.dateDue)}}</td>
+                                <td ng-if="user.isAdmin">
+                                    {{r.createdBy.name + ' ' + r.createdBy.surname}}
+                                </td>
+                                <td ng-if="user.isAdmin">
+                                    {{r.course.name}}
+                                </td>
+                                <td><span title="{{r.comment}}">{{(r.subject != null ? r.subject.name : r.subjectText)}}</span></td>
+                                <td>{{r.status.name}}</td>
+                                <td>
+                                    <div ng-if="!user.isAdmin">
+                                        <span class="glyphicon glyphicon-ban-circle" title="Povuci prijavu" ng-click="cancelRequest(r)" ng-if="checkButtonVisible(r,'cancel')"></span>
+                                        <span class="glyphicon glyphicon-refresh" title="Vrati odbačenu prijavu" ng-click="refreshRequest(r)" ng-show="checkButtonVisible(r,'refresh')"></span>
+                                    </div>
+                                    <div ng-if="user.isAdmin">
+                                        <span class="glyphicon glyphicon-ok-sign" title="Odobri prijavu" ng-click="approveRequest(r)" ng-if="checkButtonVisible(r,'approve')" ></span>
+                                        <span class="glyphicon glyphicon-ban-circle" title="Odbaci prijavu" ng-click="rejectRequest(r)" ng-if="checkButtonVisible(r,'reject')" ></span>
+                                    </div>
+                                </td>
+                                
+                                <td>
+                                    <div ng-if="!user.isAdmin">
+                                        <span class="glyphicon glyphicon-edit" title="Izmijeni temu" ng-show="checkButtonVisible(r,'changeSubject')" ng-click="changeSubject(r)"></span>
+                                    </div>
+                                    <div ng-if="user.isAdmin">
+                                        <span class="glyphicon glyphicon-edit" title="Izmijeni prijavu" ng-click="editRequest(r)"></span>
+                                    </div>                                    
+                                </td>
+                                <!--<td>
+                                    <span class="glyphicon glyphicon-" title="Dodaj datoteke"  ng-if="checkButtonVisible(r,'upload')" plupload="fileUpload.url"
+                                        plupload-options="fileUpload.options"  plupload-callbacks="fileUpload.callbacks" ></span>
+                                </td>-->
+                                <td><span class="glyphicon glyphicon-comment" title="Dodaj komentar" ng-click="addComment(r)" ng-show="user.isAdmin"></span> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </div>
+        <div class="panel panel-primary" ng-if="!user.isAdmin && availableCourses.length > 0">
+            <div class="panel-heading">Raspoložive teme</div>
+            <div class="panel-body">
+                <button class="btn btn-primary" ng-click="newRequest(null)">Prijavi svoju temu</button>
+                <subject-list subjects="subjects" on-request="newRequest(subject)"></subject-list>
+            </div>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">Aktivnosti</div>
+            <div class="panel-body">
+                <new-comment upload-limit="settings.uploadLimit" user="user" requests="requests" on-create="createComment(c)"></new-comment>
+                <activities-list activities="log" user="user"></activities-list>
+            </div>
+        </div>
+        
+        
+    </div>
+    <div class="col-md-8"></div>
+</div>

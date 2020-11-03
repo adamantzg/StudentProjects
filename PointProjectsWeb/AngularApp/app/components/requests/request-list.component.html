@@ -1,0 +1,59 @@
+<div class="alert alert-danger" *ngIf="errorMessage && displayOwnErrors">{{errorMessage}}</div>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Datum prijave</th>
+                <th>Datum isteka</th>
+                <th *ngIf="user.isAdmin">Student</th>
+                <th *ngIf="user.isAdmin">Predmet</th>
+                <th>Tema</th>
+                <th>Status</th>
+                <th></th>
+                <th></th>            
+                
+                <!-- <th></th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let r of requests">
+                <td>{{r.dateCreated | date:dateFormat}}</td>
+                <td>{{r.dateDue | date:dateFormat}}</td>
+                <td *ngIf="user.isAdmin">
+                    {{r.createdBy.name + ' ' + r.createdBy.surname}}
+                </td>
+                <td *ngIf="user.isAdmin">
+                    {{r.course.name}}
+                </td>
+                <td><span title="{{r.comment}}">
+                    <a *ngIf="user.isAdmin" [routerLink]="['/request',r.id]">{{(r.subject != null ? r.subject.name : r.subjectText)}}</a> 
+                    <span *ngIf="!user.isAdmin">{{(r.subject != null ? r.subject.name : r.subjectText)}} ({{r.course.shortname}})</span>                    
+                    </span>
+                </td>
+                <td>{{getStatus(r)}}</td>
+                <td>
+                    <ng-container *ngIf="!user.isAdmin">
+                        <span class="glyphicon glyphicon-ban-circle" title="Povuci prijavu" (click)="cancel(r)" *ngIf="checkButtonVisible(r,'cancel')"></span>
+                        <span class="glyphicon glyphicon-refresh" title="Vrati odbačenu prijavu" (click)="reactivate(r)" *ngIf="checkButtonVisible(r,'refresh')"></span>
+                        <span class="glyphicon glyphicon-remove-circle" title="Odjavi obranu" (click)="cancelExam(r)" *ngIf="checkButtonVisible(r,'cancelExam')"></span>                        
+                    </ng-container>
+                    <ng-container *ngIf="user.isAdmin">
+                        <span class="glyphicon glyphicon-ok-sign" title="Odobri prijavu" (click)="approve(r)" *ngIf="checkButtonVisible(r,'approve')" ></span>
+                        <span class="glyphicon glyphicon-ban-circle" title="Odbaci prijavu" (click)="reject(r)" *ngIf="checkButtonVisible(r,'reject')" ></span>
+                    </ng-container>
+                </td>
+                
+                <td>
+                    <ng-container *ngIf="!user.isAdmin">
+                        <span class="glyphicon glyphicon-edit" title="Izmijeni temu" *ngIf="checkButtonVisible(r,'changeSubject')" (click)="changeSubject(r)"></span>
+                    </ng-container>
+                    <ng-container *ngIf="user.isAdmin">
+                        <span class="glyphicon glyphicon-edit" title="Izmijeni prijavu" (click)="edit(r)"></span>
+                    </ng-container>                                    
+                </td>
+                
+            </tr>
+        </tbody>
+    </table>
+</div>
+
